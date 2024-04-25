@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    // allow imports to use .ts rather than js
+    "allowImportingTsExtensions": true,
+    // don't output js source code
+    "noEmit" : true
+  }
+}
