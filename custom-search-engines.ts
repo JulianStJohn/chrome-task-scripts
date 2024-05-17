@@ -1,5 +1,6 @@
 import {chromium, Browser, Page, Locator} from 'playwright'
 import {browserSession, launchChromeOsxWithRemoteDebugging } from './browser-driving'
+import {writeDataFile} from './utils/file-handling.ts'
 import {openSettings} from './site-interaction'
 
 (async () => {
@@ -15,15 +16,19 @@ import {openSettings} from './site-interaction'
 
   // The settings pages have multiple shadow DOMs
   const searchEngineRows : Locator[] = await page.locator("settings-search-engines-list#activeEngines").locator(page.getByRole("row"), { has: page.locator("span#name-column")}).all()
-
-
+  const searchEngineData = {}
   for(const searchEngine of searchEngineRows){
-    console.log(await searchEngine.locator("span#name-column").innerText())
-    console.log(await searchEngine.locator("span#shortcut-column").innerText())
-    console.log(await searchEngine.locator("span#url-column").innerText())
+    const name = await searchEngine.locator("span#name-column").innerText()
+    const shortcut = await searchEngine.locator("span#shortcut-column").innerText()
+    const url = await searchEngine.locator("span#url-column").innerText()
+
+    searchEngineData[name] = {shortcut: shortcut, url: url}
+
   }
 
-  await page.pause();
+  writeDataFile( "search-engines.json", searchEngineData)
+
+  //await page.pause();
 
 
 })();
