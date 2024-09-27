@@ -1,1 +1,1 @@
-export { browserSession, launchChromeOsxWithRemoteDebugging } from './playwright-session.ts'
+export { joinBrowserSession, launchChromeOsxWithRemoteDebugging, startBrowserSession } from './playwright-session.ts'

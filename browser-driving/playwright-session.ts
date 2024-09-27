@@ -25,7 +25,7 @@ export function launchChromeOsxWithRemoteDebugging() : void {
   });
 }
 
-export async function browserSession(retryCount? : number) : Promise<Page | null> {
+export async function joinBrowserSession(retryCount? : number) : Promise<Page | null> {
   retryCount = (retryCount === undefined) ? 0 : retryCount;
   try {
     const browser = await chromium.connectOverCDP('http://localhost:9222');
@@ -37,8 +37,20 @@ export async function browserSession(retryCount? : number) : Promise<Page | null
     console.log('Cannot connect to Chrome, retrying');
     if(retryCount <= 2){
       await delay(1000);
-      return browserSession(retryCount++); 
+      return joinBrowserSession(retryCount++); 
     }
     return new Promise<Page | null>((resolve) => { resolve(null)})
   }
+}
+
+export async function startBrowserSession(headless = true) : Promise<Page> {
+  const browser = await chromium.launch({headless : headless})
+ /*   
+  { // headless: true,
+       //executablePath : process.env.CHROMIUM_LOCATION
+});
+      */
+  
+  return await browser.newPage();
+
 }

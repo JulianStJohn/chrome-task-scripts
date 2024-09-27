@@ -4,7 +4,14 @@ Automate routine tasks with playwright
 
 ## Setup
 
-* `npm i`
+Headless scripts require chromium: 
+
+* OSX : `npx @puppeteer/browsers install chrome@stable`
+* Amazon Linux : 
+
+
+
+
 * Run chrome with `--remote-debugging-port=9222` 
 
 ### .env 
